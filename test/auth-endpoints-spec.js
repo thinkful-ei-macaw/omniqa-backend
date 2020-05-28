@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const app = require('../src/app');
 const helpers = require('./test-helpers');
+const config = require('../src/config')
 
 describe('Auth Endpoints', function () {
   let db
@@ -80,52 +81,14 @@ describe('Auth Endpoints', function () {
         username: testUser.username,
         password: testUser.password,
       }
-      const expectedToken = jwt.sign({
-          user_id: testUser.id,
-          name: testUser.name
-        },
-        process.env.JWT_SECRET, {
-          subject: testUser.username,
-          expiresIn: process.env.JWT_EXPIRY,
-          algorithm: 'HS256',
-        }
-      )
       return supertest(app)
         .post('/api/auth/login')
         .send(userValidCreds)
-        .expect(200, {
-          authToken: expectedToken,
-        })
-    })
-  })
-
-  /**
-   * @description Refresh token
-   **/
-  describe(`PATCH /api/auth/login`, () => {
-    beforeEach('insert users', () =>
-      helpers.seedUsers(
-        db,
-        testUsers,
-      )
-    )
-
-    it(`responds 200 and JWT auth token using secret`, () => {
-      const expectedToken = jwt.sign({
-          user_id: testUser.id,
-          name: testUser.name
-        },
-        process.env.JWT_SECRET, {
-          subject: testUser.username,
-          expiresIn: process.env.JWT_EXPIRY,
-          algorithm: 'HS256',
-        }
-      )
-      return supertest(app)
-        .put('/api/auth/login')
-        .set('Authorization', helpers.makeAuthHeader(testUser))
-        .expect(200, {
-          authToken: expectedToken,
+        .expect(200)
+        .expect(res => {
+          let token = res.body.authToken
+          let payload = jwt.verify(token, config.JWT_SECRET)
+         expect(payload.user_id).equal(1)
         })
     })
   })

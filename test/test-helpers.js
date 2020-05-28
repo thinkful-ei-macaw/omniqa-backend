@@ -1,4 +1,6 @@
-
+const knex = require('knex');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 /**
  * create a knex instance connected to postgres
  */
@@ -56,13 +58,13 @@ function cleanTables(db) {
   return db.transaction(trx => 
     trx.raw(
       `TRUNCATE
-       "user"`
-    ))
+       "users" CASCADE`
+    )
     .then(() => 
       Promise.all([
-        trx.raw('ALTER SEQUENCE id_seq minvalue 0 START WITH 1'),
-        trx.raw(`SELECT setval('id_seq', 0)`),
-      ]));
+        trx.raw('ALTER SEQUENCE users_id_seq minvalue 0 START WITH 1'),
+        trx.raw(`SELECT setval('users_id_seq', 0)`),
+      ])));
 }
 
 /**
@@ -78,10 +80,10 @@ function cleanTables(db) {
      password: bcrypt.hashSync(user.password, 1)
    }))
    return db.transaction(async trx => {
-     await trx.into('user').insert(preppedUsers)
+     await trx.into('users').insert(preppedUsers)
 
      await trx.raw(
-       `SELECT setval('user_id_seq', ?)`,
+       `SELECT setval('users_id_seq', ?)`,
        [users[users.length - 1].id],
      )
    })
