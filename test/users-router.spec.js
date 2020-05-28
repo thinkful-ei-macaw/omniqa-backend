@@ -3,14 +3,13 @@ const knex = require('knex');
 const bcrypt = require('bcryptjs');
 const app = require('../src/app');
 const helpers = require('./test-helpers');
+const chai = require('chai');
+const expect = chai.expect;
+const supertest = require('supertest');
+
 
 describe('Users Endpoint', function () {
   let db;
-
-  const {
-    testUsers
-  } = helpers.makeUsersArray();
-  const testUser = testUsers[0];
 
   before('make knex instance', () => {
     db = knex({
@@ -33,18 +32,23 @@ describe('Users Endpoint', function () {
         const newUser = {
           username: 'test username',
           password: 'ASDFasdf12!@',
+          name: 'test name'
         };
         return supertest(app)
           .post('/api/users')
           .send(newUser)
           .expect(201)
           .expect((res) => {
+             console.log(res.body);
             expect(res.body).to.have.property('id');
             expect(res.body.username).to.eql(newUser.username);
+            expect(res.body.name).to.eql(newUser.name);
             expect(res.body).to.not.have.property('password');
+           
           })
           .expect((res) => {
-            db.from('users')
+            db
+              .from('users')
               .select('*')
               .where({
                 id: res.body.id
