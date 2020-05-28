@@ -4,6 +4,8 @@ const morgan = require('morgan');
 const cors = require('cors');
 const helmet = require('helmet');
 const { NODE_ENV } = require('./config');
+const usersRouter = require('./users/users-router');
+const authRouter = require('./auth/auth-router');
 
 const app = express();
 
@@ -15,11 +17,8 @@ const morganOption = (NODE_ENV === 'production')
 app.use(morgan(morganOption));
 app.use(helmet());
 app.use(cors());
-
-// request handling
-app.get('/', (req, res) => {
-  res.status(200).send('Hello, world!');
-});
+app.use('/api/users', usersRouter);
+app.use('/api/auth', authRouter);
 
 // error handling
 // eslint-disable-next-line no-unused-vars
