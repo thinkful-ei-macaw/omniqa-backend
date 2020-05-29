@@ -19,7 +19,15 @@ const serializeQuestion = question => ({
 
 questionRouter
   .route('/')
+  .get((req, res, next) => {
+    QuestionService.getQuestionList(req.app.get('db'))
+      .then(questions => {
+        res.json(questions);
+      })
+      .catch(next);
+  })
   // posts a question bound to a specific user and a specific department, defaults to answered: false
+  // for frontend:  include bearer token in authorization headers; req.body needs user_id (get from readJwt function), department_id, and question_body 
   .post(requireAuth, jsonBodyParser, (req, res, next) => {
     const { user_id, question_body, department_id } = req.body;
     const newQuestion = { author: user_id, question_body: question_body, department: department_id, answered: false };
