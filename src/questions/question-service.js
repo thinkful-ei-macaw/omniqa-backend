@@ -1,5 +1,7 @@
 const QuestionService = {
-
+  getQuestionList(db) {
+    return db('questions').select('*');
+  },
 
   insertQuestion(db, newQuestion) {
 
