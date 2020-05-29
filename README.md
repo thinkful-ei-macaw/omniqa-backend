@@ -38,7 +38,7 @@ An Express app
 
 ```
 
-# QUESTION PATH
+# QUESTION ENDPOINT
 
 * GET /api/questions
 * View Array of questions
@@ -77,3 +77,71 @@ An Express app
 
 ```
 
+* Example response body from POST
+
+```
+    {
+        
+        "id": 1,
+        "author": 1,
+        "question_body": "test question 10",
+        "department": 1,
+        "created_date": "2020-05-29T18:39:07.526Z",
+        "answered": false
+
+    }
+```
+
+# ANSWER ENDPOINT
+
+* GET /api/answers
+* View Array of answers
+
+```
+[
+    {
+        "id": 1,
+        "author": 2,
+        "question": 1,
+        "answer_body": "test answer 10",
+        "created_date": "2020-05-29T20:16:12.670Z"
+    },
+
+    {
+        "id": 2,
+        "author": 2,
+        "question": 2,
+        "answer_body": "test answer 11",
+        "created_date": "2020-05-29T20:16:12.670Z"
+
+    }
+]
+```
+
+* POST /api/answers
+* Include Token in Authorization header, use Type Bearer Token
+* Example request body
+
+```
+    { 
+    
+    "answer_body": "test answer 3",
+    "question_id": 5
+    
+    }
+
+```
+
+* Example response body from POST
+
+```
+    {
+
+    "id": 3, 
+    "author": 2, 
+    "question": 5, 
+    "answer_body": "test answer 3",
+    "created_date": "2020-05-29T19:38:06.924Z" 
+    
+    }
+```
