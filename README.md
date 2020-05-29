@@ -26,12 +26,14 @@ An Express app
 * Example request body
 ```
     {
-    "username": "Testuser",
-	"password": "ASDFasdf12!@" 
+        "username": "Testuser",
+	    "password": "ASDFasdf12!@" 
     }
 ```
 * Client will receive token
 ```
- { "authToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJpYXQiOjE1OTA3NzY1MDUsInN1YiI6ImZpcnN0dHJ5In0.pH3KEein7GZWotxhHK-1gq4GlID7EGY9o3301uhEL2k" }
+ { 
+     "authToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJpYXQiOjE1OTA3NzY1MDUsInN1YiI6ImZpcnN0dHJ5In0.pH3KEein7GZWotxhHK-1gq4GlID7EGY9o3301uhEL2k" 
+ }
 
 ```
