@@ -43,7 +43,7 @@ questionRouter
                 res
                     .status(201)
                     .location(path.posix.join(req.originalUrl + `/${question.id}`))
-                    .json(serializeQuestion(newQuestion))
+                    .json(serializeQuestion(question))
             })
             .catch(next)
     })
