@@ -6,6 +6,7 @@ const helmet = require('helmet');
 const { NODE_ENV } = require('./config');
 const usersRouter = require('./users/users-router');
 const authRouter = require('./auth/auth-router');
+const questionRouter = require('./questions/question-router');
 
 const app = express();
 
@@ -19,6 +20,7 @@ app.use(helmet());
 app.use(cors());
 app.use('/api/users', usersRouter);
 app.use('/api/auth', authRouter);
+app.use('/api/questions', questionRouter);
 
 // error handling
 // eslint-disable-next-line no-unused-vars
