@@ -37,3 +37,43 @@ An Express app
  }
 
 ```
+
+# QUESTION PATH
+
+* GET /api/questions
+* View Array of questions
+
+```
+[
+    {
+        "id": 1,
+        "author": 1,
+        "question_body": "test question 1",
+        "department": 1,
+        "created_date": "2020-05-29T18:39:07.526Z",
+        "answered": false
+    },
+    {
+        "id": 2,
+        "author": 1,
+        "question_body": "test question 2",
+        "department": 2,
+        "created_date": "2020-05-29T18:39:07.526Z",
+        "answered": false
+    },
+]
+```
+
+* POST /api/questions
+* Include Token in Authorization header, use Type Bearer Token
+* Example request body
+
+```
+    {
+	
+	    "question_body": "test question 10",
+	    "department_id": 1
+    }
+
+```
+
