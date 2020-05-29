@@ -28,8 +28,8 @@ answerRouter
   // posts an answer bound to a specific user and a specific question
   // for frontend:  include bearer token in authorization headers; req.body needs user_id (get from readJwt function), question_id, and answer_body 
   .post(requireAuth, jsonBodyParser, (req, res, next) => {
-    const { user_id, answer_body, question_id } = req.body;
-    const newAnswer = { author: user_id, answer_body: answer_body, question: question_id };
+    const { answer_body, question_id } = req.body;
+    const newAnswer = { author: req.user.id, answer_body: answer_body, question: question_id };
     for (const [key, value] of Object.entries(newAnswer)) {
       if (value == null) {
         return res.status(400).json({ error: `Missing '${key}' in request body` });
