@@ -11,6 +11,18 @@ const QuestionService = {
       .returning('*')
       .then(rows => rows[0]);
 
+  },
+
+  getId(db, id) {
+    return db('questions').select('*').where({ id }).first();
+  },
+
+  deleteQuestion(db, id) {
+    return db('questions').where({ id }).delete().returning('*');
+  },
+
+  updateQuestion(db, id, newQuestionFields) {
+    return db('questions').where({ id }).update(newQuestionFields).returning('*')
   }
 
 };
