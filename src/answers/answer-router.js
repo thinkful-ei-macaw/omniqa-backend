@@ -69,7 +69,17 @@ answerRouter
       .then(() => {
         res.status(204).end();
       })
-      .catch(next);
+      .catch((error) => {
+        if (error.constraint == 'upvote_once') {
+          res.status(400).json({
+            error: {
+              message: 'You can only upvote once'
+            }
+          });
+        } else {
+          next(error);
+        }
+      });
   });
 
 module.exports = answerRouter;
