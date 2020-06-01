@@ -46,4 +46,30 @@ answerRouter
       .catch(next);
   });
 
+answerRouter
+  .route('/:answer_id')
+  .all((req, res, next) => {
+    const knexInstance = req.app.get('db');
+    AnswerService.getAnswersById(knexInstance, req.params.answer_id)
+      .then(answer => {
+        if (!answer) {
+          return res.status(404).json({
+            error: {
+              message: 'Answer does not exist'
+            }
+          });
+        }
+        next();
+      })
+      .catch(next);
+  })
+  .post(requireAuth, (req, res, next) => {
+    const upvote = { answer_id: req.params.answer_id, user_id: req.user.id };
+    AnswerService.addUpvote(req.app.get('db'), upvote)
+      .then(() => {
+        res.status(204).end();
+      })
+      .catch(next);
+  });
+
 module.exports = answerRouter;

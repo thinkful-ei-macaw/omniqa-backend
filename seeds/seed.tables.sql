@@ -1,5 +1,5 @@
 TRUNCATE
-  users, departments, questions
+  users, departments, questions, question_likes, answer_upvotes
   RESTART IDENTITY CASCADE;
 
 INSERT INTO users (name, username, password)

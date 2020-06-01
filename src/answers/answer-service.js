@@ -10,9 +10,19 @@ const AnswerService = {
       .into('answers')
       .returning('*')
       .then(rows => rows[0]);
-
+  },
+  addUpvote(db, upvote) {
+    return db
+      .insert(upvote)
+      .into('answer_upvotes');
+  },
+  getAnswersById(db, id) {
+    return db
+      .from('answers')
+      .select('*')
+      .where('id', id)
+      .first();
   }
-
 };
 
 module.exports = AnswerService;
