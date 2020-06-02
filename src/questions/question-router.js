@@ -61,7 +61,7 @@ questionRouter
         if (!question) {
           return res.status(404).json({
             error: {
-              message: 'Answer does not exist'
+              message: 'Question does not exist'
             }
           });
         }
