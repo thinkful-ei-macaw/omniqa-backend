@@ -22,6 +22,13 @@ const AnswerService = {
       .select('*')
       .where('id', id)
       .first();
+  },
+  deleteAnswer(db, id) {
+    return db('answers').where({ id }).delete().returning('*');
+  },
+
+  updateAnswer(db, id, newAnswerFields) {
+    return db('answers').where({ id }).update(newAnswerFields).returning('*');
   }
 };
 
