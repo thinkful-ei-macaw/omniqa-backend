@@ -71,12 +71,6 @@ answerRouter
       })
       .catch(next);
   })
-
-
-
-
-
-
   .post(requireAuth, (req, res, next) => {
     const upvote = { answer_id: req.params.answer_id, user_id: req.user.id };
     AnswerService.addUpvote(req.app.get('db'), upvote)
