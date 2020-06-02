@@ -11,8 +11,30 @@ const QuestionService = {
       .returning('*')
       .then(rows => rows[0]);
 
-  }
+  },
+  addLike(db, like) {
+    return db
+      .insert(like)
+      .into('question_likes');
+  },
+  getQuestionsById(db, id) {
+    return db
+      .from('questions')
+      .select('*')
+      .where('id', id)
+      .first();
+  },
+  getId(db, id) {
+    return db('questions').select('*').where({ id }).first();
+  },
 
+  deleteQuestion(db, id) {
+    return db('questions').where({ id }).delete().returning('*');
+  },
+
+  updateQuestion(db, id, newQuestionFields) {
+    return db('questions').where({ id }).update(newQuestionFields).returning('*');
+  }
 };
 
 module.exports = QuestionService;

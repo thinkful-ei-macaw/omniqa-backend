@@ -52,4 +52,67 @@ questionRouter
       .catch(next);
   });
 
+questionRouter
+  .route('/:question_id')
+  .all((req, res, next) => {
+    const knexInstance = req.app.get('db');
+    QuestionService.getQuestionsById(knexInstance, req.params.question_id)
+      .then(question => {
+        if (!question) {
+          return res.status(404).json({
+            error: {
+              message: 'Answer does not exist'
+            }
+          });
+        }
+        next();
+      })
+      .catch(next);
+  })
+  .post(requireAuth, (req, res, next) => {
+    const like = { question_id: req.params.question_id, user_id: req.user.id };
+    QuestionService.addLike(req.app.get('db'), like)
+      .then(() => {
+        res.status(204).end();
+      })
+      .catch((error) => {
+        if (error.constraint == 'like_once') {
+          res.status(400).json({
+            error: {
+              message: 'You can only like once'
+            }
+          });
+        } else {
+          next(error);
+        }
+      });
+  })
+  .delete(requireAuth, (req, res, next) => {
+    QuestionService.deleteQuestion(req.app.get('db'), req.params.question_id)
+      .then(() => {
+        res.status(201).json({ success: true });
+      })
+      .catch(next);
+  })
+  .patch(requireAuth, jsonBodyParser, (req, res, next) => {
+    const { question_body, department_id } = req.body;
+    const updateQuestion = { question_body, department_id };
+    const numOfValues = Object.values(updateQuestion).filter(Boolean).length;
+    if (numOfValues === 0) {
+      return res.status(400).json({
+        error: {
+          message: 'Your request body must contain at least one field to update'
+        }
+      });
+    }
+
+    QuestionService.updateQuestion(req.app.get('db'), req.params.question_id, updateQuestion)
+      .then(question => {
+        res
+          .status(200)
+          .location(path.posix.join(req.originalUrl + `/${question[0].id}`))
+          .json(serializeQuestion(question[0]));
+      });
+  });
+
 module.exports = questionRouter;
