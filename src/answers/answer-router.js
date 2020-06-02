@@ -63,6 +63,20 @@ answerRouter
       })
       .catch(next);
   })
+  .get(requireAuth, (req, res, next) => {
+    const answerID = req.params.answer_id;
+    AnswerService.getUpvotes(req.app.get('db'), answerID)
+      .then((numUpvotes) => {
+        res.status(200).json(numUpvotes);
+      })
+      .catch(next);
+  })
+
+
+
+
+
+
   .post(requireAuth, (req, res, next) => {
     const upvote = { answer_id: req.params.answer_id, user_id: req.user.id };
     AnswerService.addUpvote(req.app.get('db'), upvote)
