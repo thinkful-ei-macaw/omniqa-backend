@@ -95,9 +95,9 @@ questionRouter
       .catch(next);
   })
   .patch(requireAuth, jsonBodyParser, (req, res, next) => {
-    const { question_body, department_id } = req.body;
-    const updateQuestion = { question_body, department_id };
-    const numOfValues = Object.values(updateQuestion).filter(Boolean).length;
+    const { question_body, department } = req.body;
+    const updateQuestions = { question_body, department };
+    const numOfValues = Object.values(updateQuestions).filter(Boolean).length;
     if (numOfValues === 0) {
       return res.status(400).json({
         error: {
@@ -106,13 +106,14 @@ questionRouter
       });
     }
 
-    QuestionService.updateQuestion(req.app.get('db'), req.params.question_id, updateQuestion)
+    QuestionService.updateQuestion(req.app.get('db'), req.params.question_id, updateQuestions)
       .then(question => {
         res
           .status(200)
           .location(path.posix.join(req.originalUrl + `/${question[0].id}`))
           .json(serializeQuestion(question[0]));
-      });
+      })
+      .catch(next);
   });
 
 module.exports = questionRouter;

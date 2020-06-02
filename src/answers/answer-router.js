@@ -87,6 +87,32 @@ answerRouter
         res.status(201).json({ success: true });
       })
       .catch(next);
+  })
+  .patch(requireAuth, jsonBodyParser, (req, res, next) => {
+    const {
+      answer_body
+      
+    } = req.body;
+    const updateAnswers = {
+      answer_body
+    };
+    const numOfValues = Object.values(updateAnswers).filter(Boolean).length;
+    if (numOfValues === 0) {
+      return res.status(400).json({
+        error: {
+          message: 'Your request body must contain at least one field to update'
+        }
+      });
+    }
+
+    AnswerService.updateAnswer(req.app.get('db'), req.params.answer_id, updateAnswers)
+      .then(answer => {
+        res
+          .status(200)
+          .location(path.posix.join(req.originalUrl + `/${answer[0].id}`))
+          .json(serializeAnswer(answer[0]));
+      })
+      .catch(next);
   });
 
 module.exports = answerRouter;
