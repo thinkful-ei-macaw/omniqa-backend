@@ -9,6 +9,7 @@ const authRouter = require('./auth/auth-router');
 const questionRouter = require('./questions/question-router');
 const answerRouter = require('./answers/answer-router');
 const upvoteRouter = require('./upvotes/upvote-router');
+const likesRouter = require('./likes/likes-router');
 const app = express();
 
 const morganOption = (NODE_ENV === 'production')
@@ -24,6 +25,7 @@ app.use('/api/auth', authRouter);
 app.use('/api/questions', questionRouter);
 app.use('/api/answers', answerRouter);
 app.use('/api/upvotes', upvoteRouter);
+app.use('/api/likes', likesRouter);
 
 // error handling
 // eslint-disable-next-line no-unused-vars
