@@ -31,7 +31,7 @@ answerRouter
     const { answer_body, question_id } = req.body;
     const newAnswer = { author: req.user.id, answer_body: answer_body, question: question_id };
     for (const [key, value] of Object.entries(newAnswer)) {
-      if (value == null) {
+      if (value === null) {
         return res.status(400).json({ error: `Missing '${key}' in request body` });
       }
     }
@@ -78,7 +78,7 @@ answerRouter
         res.status(204).end();
       })
       .catch((error) => {
-        if (error.constraint == 'upvote_once') {
+        if (error.constraint === 'upvote_once') {
           res.status(400).json({
             error: {
               message: 'You can only upvote once'

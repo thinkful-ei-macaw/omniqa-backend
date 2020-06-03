@@ -150,4 +150,53 @@ questionRouter
       .catch(next);
   });
 
+questionRouter
+  .route('/:question_id')
+  .all(requireAuth, (req, res, next) => {
+    QuestionService.getId(req.app.get('db'), req.params.question_id)
+      .then(question => {
+        if (!question) {
+          return res.status(401).json({
+            error: {
+              message: 'That question does not exist!'
+            }
+          });
+        }
+
+        res.question = question;
+        next();
+      })
+      .catch(next);
+  })
+  .get((req, res, next) => {
+    res.json(serializeQuestion(res.question));
+  })
+  .delete(requireAuth, (req, res, next) => {
+    QuestionService.deleteQuestion(req.app.get('db'), req.params.question_id)
+      .then(() => {
+        res.status(201).json({ success: true });
+      })
+      .catch(next);
+  })
+  .patch(requireAuth, jsonBodyParser, (req, res, next) => {
+    const { question_body, department_id } = req.body;
+    const updateQuestion = { question_body, department_id };
+    const numOfValues = Object.values(updateQuestion).filter(Boolean).length;
+    if (numOfValues === 0) {
+      return res.status(400).json({
+        error: {
+          message: 'Your request body must contain at least one field to update'
+        }
+      });
+    }
+
+    QuestionService.updateQuestion(req.app.get('db'), req.params.question_id, updateQuestion)
+      .then(question => {
+        res
+          .status(200)
+          .location(path.posix.join(req.originalUrl + `/${question[0].id}`))
+          .json(serializeQuestion(question[0]));
+      });
+  });
+
 module.exports = questionRouter;

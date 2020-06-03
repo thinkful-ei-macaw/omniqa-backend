@@ -11,7 +11,6 @@ const answerRouter = require('./answers/answer-router');
 const upvoteRouter = require('./upvotes/upvote-router');
 const likesRouter = require('./likes/likes-router');
 const departmentRouter = require('./departments/department-router');
-
 const app = express();
 
 const morganOption = (NODE_ENV === 'production')
