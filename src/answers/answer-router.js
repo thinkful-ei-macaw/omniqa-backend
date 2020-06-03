@@ -19,7 +19,7 @@ const serializeAnswer = answer => ({
 answerRouter
   .route('/')
   .get((req, res, next) => {
-    AnswerService.getAnswerList(req.app.get('db'))
+    AnswerService.getJoinQa(req.app.get('db'))
       .then(answers => {
         res.json(answers);
       })
@@ -99,7 +99,7 @@ answerRouter
   .patch(requireAuth, jsonBodyParser, (req, res, next) => {
     const {
       answer_body
-      
+
     } = req.body;
     const updateAnswers = {
       answer_body
