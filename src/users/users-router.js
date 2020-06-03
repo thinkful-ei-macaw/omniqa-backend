@@ -6,8 +6,13 @@ const usersRouter = express.Router();
 const jsonBodyParser = express.json();
 
 usersRouter
-  .post('/', jsonBodyParser, (req, res, next) => {
-    const { name, username, password } = req.body;
+  .route('/')
+  .post(jsonBodyParser, (req, res, next) => {
+    const {
+      name,
+      username,
+      password
+    } = req.body;
 
     for (const field of ['name', 'username', 'password'])
       if (!req.body[field])
@@ -20,7 +25,9 @@ usersRouter
     const passwordError = UsersService.validatePassword(password);
 
     if (passwordError)
-      return res.status(400).json({ error: passwordError });
+      return res.status(400).json({
+        error: passwordError
+      });
 
     UsersService.hasUserWithUserName(
       req.app.get('db'),
@@ -28,7 +35,9 @@ usersRouter
     )
       .then(hasUserWithUserName => {
         if (hasUserWithUserName)
-          return res.status(400).json({ error: `Username already taken` });
+          return res.status(400).json({
+            error: 'Username already taken'
+          });
 
         return UsersService.hashPassword(password)
           .then(hashedPassword => {
@@ -53,5 +62,26 @@ usersRouter
       })
       .catch(next);
   });
+
+usersRouter
+  .route('/:user_id')
+  .get((req, res, next) => {
+    const userID = req.params.user_id;
+    UsersService.getName(req.app.get('db'), userID)
+      .then(name => {
+        if (!name) {
+          return res.status(404).json({
+            error: {
+              message: 'Name does not exist'
+            }
+          });
+        } else {
+          res.status(201).json({name});
+        }
+        next();
+      })
+      .catch(next);
+  });
+
 
 module.exports = usersRouter;

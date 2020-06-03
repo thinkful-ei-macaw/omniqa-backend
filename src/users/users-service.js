@@ -17,6 +17,12 @@ const UsersService = {
       .returning('*')
       .then(([user]) => user);
   },
+  getName(db, userID) {
+    return db('users')
+      .where({ id: userID })
+      .select('name')
+      .first();
+  },
   validatePassword(password) {
     if (password.length < 8) {
       return 'Password must be longer than 8 characters';

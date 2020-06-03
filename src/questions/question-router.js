@@ -2,7 +2,9 @@ const path = require('path');
 const express = require('express');
 const xss = require('xss');
 const QuestionService = require('./question-service');
-const { requireAuth } = require('../middleware/jwt-auth');
+const {
+  requireAuth
+} = require('../middleware/jwt-auth');
 
 const questionRouter = express.Router();
 const jsonBodyParser = express.json();
@@ -27,18 +29,30 @@ questionRouter
       })
       .catch(next);
   })
-// posts a question bound to a specific user and a specific department, defaults to answered: false
-// for frontend:  include bearer token in authorization headers; req.body needs user_id (get from readJwt function), department_id, and question_body 
+  // posts a question bound to a specific user and a specific department, defaults to answered: false
+  // for frontend:  include bearer token in authorization headers; req.body needs user_id (get from readJwt function), department_id, and question_body 
   .post(requireAuth, jsonBodyParser, (req, res, next) => {
-    const { question_body, department_id } = req.body;
-    const newQuestion = { author: req.user.id, question_body: question_body, department: department_id, answered: false };
-    if (typeof department_id !==  'number') {
-      res.status(400).json({error: 'Department ID must be a number'});
+    const {
+      question_body,
+      department_id
+    } = req.body;
+    const newQuestion = {
+      author: req.user.id,
+      question_body: question_body,
+      department: department_id,
+      answered: false
+    };
+    if (typeof department_id !== 'number') {
+      res.status(400).json({
+        error: 'Department ID must be a number'
+      });
     }
 
     for (const [key, value] of Object.entries(newQuestion)) {
       if (value == null) {
-        return res.status(400).json({ error: `Missing '${key}' in request body` });
+        return res.status(400).json({
+          error: `Missing '${key}' in request body`
+        });
       }
     }
 
@@ -69,8 +83,20 @@ questionRouter
       })
       .catch(next);
   })
+  .get(requireAuth, (req, res, next) => {
+    const questionID = req.params.question_id;
+    QuestionService.getQuestionLikes(req.app.get('db'), questionID)
+      .then((numLikes) => {
+        res.status(200).json(numLikes);
+      })
+      .catch(next);
+  })
+
   .post(requireAuth, (req, res, next) => {
-    const like = { question_id: req.params.question_id, user_id: req.user.id };
+    const like = {
+      question_id: req.params.question_id,
+      user_id: req.user.id
+    };
     QuestionService.addLike(req.app.get('db'), like)
       .then(() => {
         res.status(204).end();
@@ -90,13 +116,21 @@ questionRouter
   .delete(requireAuth, (req, res, next) => {
     QuestionService.deleteQuestion(req.app.get('db'), req.params.question_id)
       .then(() => {
-        res.status(201).json({ success: true });
+        res.status(201).json({
+          success: true
+        });
       })
       .catch(next);
   })
   .patch(requireAuth, jsonBodyParser, (req, res, next) => {
-    const { question_body, department } = req.body;
-    const updateQuestions = { question_body, department };
+    const {
+      question_body,
+      department
+    } = req.body;
+    const updateQuestions = {
+      question_body,
+      department
+    };
     const numOfValues = Object.values(updateQuestions).filter(Boolean).length;
     if (numOfValues === 0) {
       return res.status(400).json({
