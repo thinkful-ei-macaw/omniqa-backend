@@ -92,7 +92,7 @@ answerRouter
   .delete(requireAuth, (req, res, next) => {
     AnswerService.deleteAnswer(req.app.get('db'), req.params.answer_id)
       .then(() => {
-        res.status(201).json({ success: true });
+        res.status(204).json({ success: true });
       })
       .catch(next);
   })

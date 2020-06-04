@@ -11,11 +11,6 @@ const QuestionService = {
       .then(rows => rows[0]);
 
   },
-  addLike(db, like) {
-    return db
-      .insert(like)
-      .into('question_likes');
-  },
   getQuestionsById(db, id) {
     return db
       .from('questions')

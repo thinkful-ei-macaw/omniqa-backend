@@ -124,14 +124,43 @@ Deletes a question by the user matched using the token. This requires an `Author
 **Response: 204 NO CONTENT**
 
 ### PATCH /api/questions/:question_id
-Updates a question by the user matched using the token. This requires an `Authorization` header with a Bearer Token (received from `POST /api/auth/login`)
+Updates a question by the user matched using the token. This requires an `Authorization` header with a Bearer Token (received from `POST /api/auth/login`), as well as a JSON object with at least one of the following optional fields: `question_body`(string), `department_id`(int), and `answered`(boolean) in the request body.
 
-**Response: 204 NO CONTENT**
-## Answer Endpoint
+**Response: 200 OK**
 
-GET /api/answers
-* View Array of answers
+Example request from the client 
 
+```
+{
+	"question_body": "update_question_2",
+	"department_id": 3,
+	"answered": true
+}
+
+```
+
+Example response from the database 
+
+```
+{
+    "id": 2,
+    "author": 1,
+    "question_body": "update_question_2",
+    "department": 2,
+    "created_date": "2020-06-03T21:01:50.870Z",
+    "answered": true
+}
+
+```
+
+# Answer Endpoint
+
+### GET /api/answers
+Returns an array of all answers from the database. 
+
+**Response: 200 OK**
+
+Example response from database.
 ```
 [
     {
@@ -153,9 +182,10 @@ GET /api/answers
 ]
 ```
 
-* POST /api/answers
-* Include Token in Authorization header, use Type Bearer Token
-* Example request body
+### POST /api/answers
+Creates an answer in the database. This requires an `Authorization` header with a Bearer token (received from `POST /api/auth/login`), as well as a JSON object with `answer_body`(string) and `question_id`(int) in the request body.
+
+Example request body from client
 
 ```
     { 
@@ -167,7 +197,7 @@ GET /api/answers
 
 ```
 
-* Example response body from POST
+Example response body from POST
 
 ```
     {
@@ -179,4 +209,53 @@ GET /api/answers
     "created_date": "2020-05-29T19:38:06.924Z" 
     
     }
+```
+
+### GET /api/answers/:answer_id
+Gets an answer by the user matched using the token. This requires an `Authorization` header with a Bearer Token (received from `POST /api/auth/login`)
+
+**Response: 200 OK**
+
+```
+[
+    {
+        "id": 1,
+        "author": 2,
+        "question": 1,
+        "answer_body": "answer-1",
+        "created_date": "2020-06-04T20:08:55.590Z"
+    }
+]
+```
+
+### DELETE /api/answers/:answers_id
+Deletes a answer by the user matched using the token. This requires an `Authorization` header with a Bearer Token (received from `POST /api/auth/login`)
+
+**Response: 204 NO CONTENT**
+
+### PATCH /api/answers/:answers_id
+Updates an answer by the user matched using the token. This requires an `Authorization` header with a Bearer Token (received from `POST /api/auth/login`), as well as a JSON object with `answer_body` (string).
+
+**Response: 200 OK**
+
+Example request from the client 
+
+```
+{
+	"answer_body": "updated-answer-2",
+}
+
+```
+
+Example response from the database 
+
+```
+{
+    "id": 2,
+    "author": 2,
+    "question": 2,
+    "answer_body": "updated-answer-2",
+    "created_date": "2020-06-04T20:27:43.390Z"
+}
+
 ```
