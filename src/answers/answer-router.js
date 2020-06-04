@@ -19,7 +19,7 @@ const serializeAnswer = answer => ({
 answerRouter
   .route('/')
   .get((req, res, next) => {
-    AnswerService.getJoinQa(req.app.get('db'))
+    AnswerService.getAnswerList(req.app.get('db'))
       .then(answers => {
         res.json(answers);
       })
