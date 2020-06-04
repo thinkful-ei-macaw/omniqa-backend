@@ -30,14 +30,6 @@ const AnswerService = {
   updateAnswer(db, id, newAnswerFields) {
     return db('answers').where({ id }).update(newAnswerFields).returning('*');
   }, 
-  getUpvotes(db, answerID) {
-    return db
-      .from('answer_upvotes')
-      .count('id')
-      .where({
-        answer_id: answerID
-      });
-  }
 };
 
 module.exports = AnswerService;

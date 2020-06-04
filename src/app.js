@@ -34,6 +34,7 @@ app.use('/api/departments', departmentRouter);
 // eslint-disable-next-line no-unused-vars
 const errorHandler = (error, req, res, next) => {
   let response;
+  console.log(error);
   if (NODE_ENV === 'production') {
     response = { error: { message: 'Server error' } };
   } else {
