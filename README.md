@@ -1,47 +1,72 @@
 # Omni-Server
-An Express app
+* Back-end framework providing data to the Omni app
+* Link to live server: https://murmuring-ridge-04034.herokuapp.com
 
+# Screenshots
+**insert later
+**
 
-#  API DOCUMENTATION
+# Endpoints
 
-* http://localhost:8000/api
+## User Endpoint
 
-# CREATE USER
+### POST /api/users
+Creates new user accounts in the database. This requires a JSON Object with `name`, `username`, and `password` **(must contain minimum 8 characters with at least 1 uppercase, 1 lowercase, and 1 number)**
 
-* POST /api/users
-* "password" must contain minimum 8 characters with at least one of each of the following.
-*  Upper and lowercase letters, numbers, and symbols. 
-*  Example request body
+**Response: 201 CREATED**
+
 ``` 
     {
+
 	"name": "Username",
 	"username": "Testuser",
 	"password": "ASDFasdf12!@" 
+
+    } 
+```
+### GET /api/users/:user_id
+Gets a users name from the database.
+
+Response: **200 OK**
+
+``` 
+    {
+
+	"name": "Username"
+
     } 
 ```
 
-# LOGIN USER 
+## Login endpoint 
 
-* POST /api/auth/login
-* Example request body
+### POST /api/auth/login
+Facilitates logging in by the client. This requires a JSON object with `username` and `password` in the request body.
+
+**Response: 200 OK**
+
 ```
     {
+
     "username": "Testuser",
 	"password": "ASDFasdf12!@" 
+
     }
 ```
-* Client will receive token
+
 ```
  { 
+
  "authToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJpYXQiOjE1OTA3NzY1MDUsInN1YiI6ImZpcnN0dHJ5In0.pH3KEein7GZWotxhHK-1gq4GlID7EGY9o3301uhEL2k" 
+
  }
 
 ```
 
-# QUESTION ENDPOINT
+## Question Endpoint
+### GET /api/questions
+Returns an array of all questions from the database. 
 
-* GET /api/questions
-* View Array of questions
+**Response: 200 OK**
 
 ```
 [
@@ -64,9 +89,10 @@ An Express app
 ]
 ```
 
-* POST /api/questions
-* Include Token in Authorization header, use Type Bearer Token
-* Example request body
+### POST /api/questions
+Creates a question in the database. This requires an `Authorization` header with a Bearer token (received from `POST /api/auth/login`), as well as a JSON object with `question_body`(string) and `department_id`(int) in the request body.
+
+**Response: 201 Created**
 
 ```
     {
@@ -77,7 +103,7 @@ An Express app
 
 ```
 
-* Example response body from POST
+Example response body from POST
 
 ```
     {

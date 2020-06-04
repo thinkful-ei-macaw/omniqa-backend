@@ -29,7 +29,6 @@ app.use('/api/upvotes', upvoteRouter);
 app.use('/api/likes', likesRouter);
 app.use('/api/departments', departmentRouter);
 
-
 // error handling
 // eslint-disable-next-line no-unused-vars
 const errorHandler = (error, req, res, next) => {

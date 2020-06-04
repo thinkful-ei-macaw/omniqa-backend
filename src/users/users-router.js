@@ -76,7 +76,7 @@ usersRouter
             }
           });
         } else {
-          res.status(201).json({name});
+          res.status(200).json({name});
         }
         next();
       })
