@@ -3,13 +3,13 @@
 * Link to live server: <https://murmuring-ridge-04034.herokuapp.com>
 
 # Table of Contents
-User Endpoint
-Login Endpoint
-Question Endpoint
-Answer Endpoint
-Answer Upvotes Endpoint
-Question Likes Endpoint
-Department Endpoint
+* [User Endpoint](#user-endpoint)
+* [Login Endpoint](#login-endpoint)
+* [Question Endpoint](#question-endpoint)
+* [Answer Endpoint](#answer-endpoint)
+* [Answer Upvotes Endpoint](#answer-upvotes-endpoint)
+* [Question Likes Endpoint](#question-likes-endpoint)
+* [Department Endpoint](#department-endpoint)
 
 # Screenshots
 **insert later
