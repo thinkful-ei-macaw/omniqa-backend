@@ -126,11 +126,13 @@ questionRouter
     const {
       question_body,
       department,
+      answered
 
     } = req.body;
     const updateQuestions = {
       question_body,
       department,
+      answered
     };
     const numOfValues = Object.values(updateQuestions).filter(Boolean).length;
     if (numOfValues === 0) {
