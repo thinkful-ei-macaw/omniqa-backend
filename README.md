@@ -1,6 +1,15 @@
 # Omni-Server
 * Back-end framework providing data to the Omni app
-* Link to live server: https://murmuring-ridge-04034.herokuapp.com
+* Link to live server: <https://murmuring-ridge-04034.herokuapp.com>
+
+# Table of Contents
+User Endpoint
+Login Endpoint
+Question Endpoint
+Answer Endpoint
+Answer Upvotes Endpoint
+Question Likes Endpoint
+Department Endpoint
 
 # Screenshots
 **insert later
@@ -153,7 +162,7 @@ Example response from the database
 
 ```
 
-# Answer Endpoint
+## Answer Endpoint
 
 ### GET /api/answers
 Returns an array of all answers from the database. 
@@ -258,4 +267,77 @@ Example response from the database
     "created_date": "2020-06-04T20:27:43.390Z"
 }
 
+```
+
+## Answer Upvotes Endpoint
+
+### GET /api/upvotes/:answer_id
+
+Gets the total upvote count for a given answer (req.params.answer_id). This requires an `Authorization` header with a Bearer Token (received from `POST /api/auth/login`).
+
+**Response: 200 OK**
+
+Example response from database.
+
+```
+[
+    {
+        "count": "1"
+    }
+]
+```
+
+### POST /api/upvotes/:answer_id
+
+Increases the total upvote count for a given answer (req.params.answer_id). This requires an `Authorization` header with a Bearer Token (received from `POST /api/auth/login`).
+
+**Response: 204 NO CONTENT**
+
+## Question Likes Endpoint
+
+### GET /api/likes/:question_id
+
+Gets the total number of likes for a question (req.params.question_id). This requires an `Authorization` header with a Bearer Token (received from `POST /api/auth/login`).
+
+**Response: 200 OK**
+
+Example response from database.
+
+```
+[
+    {
+        "count": "1"
+    }
+]
+```
+### POST /api/likes/:question_id
+
+Increases the like upvote count for a given question (req.params.question_id). This requires an `Authorization` header with a Bearer Token (received from `POST /api/auth/login`).
+
+**Response: 204 NO CONTENT**
+
+Example request from client 
+
+```
+[
+    {
+        "count": "0"
+    }
+    
+]
+```
+
+## Department Endpoint
+
+### GET /api/departments/:department_id
+Gets the department name for a given department_id (req.params.department_id). This requires an `Authorization` header with a Bearer Token (received from `POST /api/auth/login`).
+
+**Response: 200 OK**
+
+```
+{
+    "department_name": {
+        "name": "Sales"
+    }
+}
 ```
