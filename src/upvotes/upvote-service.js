@@ -7,7 +7,12 @@ const UpvoteService = {
       .where({
         answer_id: answerID
       });
-  }
+  },
+  addUpvote(db, upvote) {
+    return db
+      .insert(upvote)
+      .into('answer_upvotes');
+  },
 };
 
 module.exports = UpvoteService;
