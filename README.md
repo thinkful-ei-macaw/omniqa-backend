@@ -220,23 +220,6 @@ Example response body from POST
     }
 ```
 
-### GET /api/answers/:answer_id
-Gets an answer by the user matched using the token. This requires an `Authorization` header with a Bearer Token (received from `POST /api/auth/login`)
-
-**Response: 200 OK**
-
-```
-[
-    {
-        "id": 1,
-        "author": 2,
-        "question": 1,
-        "answer_body": "answer-1",
-        "created_date": "2020-06-04T20:08:55.590Z"
-    }
-]
-```
-
 ### DELETE /api/answers/:answers_id
 Deletes a answer by the user matched using the token. This requires an `Authorization` header with a Bearer Token (received from `POST /api/auth/login`)
 
@@ -315,17 +298,6 @@ Example response from database.
 Increases the like upvote count for a given question (req.params.question_id). This requires an `Authorization` header with a Bearer Token (received from `POST /api/auth/login`).
 
 **Response: 204 NO CONTENT**
-
-Example request from client 
-
-```
-[
-    {
-        "count": "0"
-    }
-    
-]
-```
 
 ## Department Endpoint
 
