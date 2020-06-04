@@ -4,11 +4,11 @@ const AnswerService = {
   },
   // join('ancestors', 'ancestors.parentId', 'people.id')
 
-  getJoinQa(db) {
-    return db('answers').select('*')
-      .join('questions', 'answers.question', 'questions.id')
-      .join('users', 'answers.author', 'users.id')
-  },
+  // getJoinQa(db) {
+  //   return db('answers').select('*')
+  //     .join('questions', 'answers.question', 'questions.id')
+  //     .join('users', 'answers.author', 'users.id')
+  // },
 
   insertAnswer(db, newAnswer) {
 
