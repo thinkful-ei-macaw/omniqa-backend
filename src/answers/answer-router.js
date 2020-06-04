@@ -62,33 +62,7 @@ answerRouter
         next();
       })
       .catch(next);
-  })
-  .get(requireAuth, (req, res, next) => {
-    const answerID = req.params.answer_id;
-    AnswerService.getUpvotes(req.app.get('db'), answerID)
-      .then((numUpvotes) => {
-        res.status(200).json(numUpvotes);
-      })
-      .catch(next);
-  })
-  .post(requireAuth, (req, res, next) => {
-    const upvote = { answer_id: req.params.answer_id, user_id: req.user.id };
-    AnswerService.addUpvote(req.app.get('db'), upvote)
-      .then(() => {
-        res.status(204).end();
-      })
-      .catch((error) => {
-        if (error.constraint === 'upvote_once') {
-          res.status(400).json({
-            error: {
-              message: 'You can only upvote once'
-            }
-          });
-        } else {
-          next(error);
-        }
-      });
-  })
+  })  
   .delete(requireAuth, (req, res, next) => {
     AnswerService.deleteAnswer(req.app.get('db'), req.params.answer_id)
       .then(() => {
