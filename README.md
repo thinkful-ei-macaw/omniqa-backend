@@ -118,9 +118,18 @@ Example response body from POST
     }
 ```
 
-# ANSWER ENDPOINT
+### DELETE /api/questions/:question_id
+Deletes a question by the user matched using the token. This requires an `Authorization` header with a Bearer Token (received from `POST /api/auth/login`)
 
-* GET /api/answers
+**Response: 204 NO CONTENT**
+
+### PATCH /api/questions/:question_id
+Updates a question by the user matched using the token. This requires an `Authorization` header with a Bearer Token (received from `POST /api/auth/login`)
+
+**Response: 204 NO CONTENT**
+## Answer Endpoint
+
+GET /api/answers
 * View Array of answers
 
 ```
