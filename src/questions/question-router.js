@@ -125,11 +125,13 @@ questionRouter
   .patch(requireAuth, jsonBodyParser, (req, res, next) => {
     const {
       question_body,
-      department
+      department,
+      answered
     } = req.body;
     const updateQuestions = {
       question_body,
-      department
+      department,
+      answered
     };
     const numOfValues = Object.values(updateQuestions).filter(Boolean).length;
     if (numOfValues === 0) {
