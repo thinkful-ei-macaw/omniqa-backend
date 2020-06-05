@@ -97,10 +97,6 @@ questionRouter
       question_body,
       department,
       answered
-<<<<<<< HEAD
-=======
-
->>>>>>> post route needs degbugging for answer spec
     } = req.body;
     const updateQuestions = {
       question_body,
