@@ -36,9 +36,6 @@ const AnswerService = {
 
   updateAnswer(db, id, newAnswerFields) {
     return db('answers').where({ id }).update(newAnswerFields).returning('*');
-<<<<<<< HEAD
-  }, 
-=======
   },
   getUpvotes(db, answerID) {
     return db
@@ -48,7 +45,6 @@ const AnswerService = {
         answer_id: answerID
       });
   }
->>>>>>> updated answer route
 };
 
 //have a method for get answers, questions and authors
