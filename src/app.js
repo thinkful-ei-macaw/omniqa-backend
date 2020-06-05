@@ -1,4 +1,3 @@
-require('dotenv').config();
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
@@ -13,9 +12,7 @@ const likesRouter = require('./likes/likes-router');
 const departmentRouter = require('./departments/department-router');
 const app = express();
 
-const morganOption = (NODE_ENV === 'production')
-  ? 'tiny'
-  : 'common';
+const morganOption = NODE_ENV === 'production' ? 'tiny' : 'common';
 
 // set up middleware
 app.use(morgan(morganOption));

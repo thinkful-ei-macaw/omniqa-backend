@@ -73,7 +73,7 @@ answerRouter
   .patch(requireAuth, jsonBodyParser, (req, res, next) => {
     const {
       answer_body
-      
+
     } = req.body;
     const updateAnswers = {
       answer_body

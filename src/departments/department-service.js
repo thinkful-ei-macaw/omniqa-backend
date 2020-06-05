@@ -1,5 +1,10 @@
 
 const DepartmentService = {
+
+  getDepartmentList(db) {
+    return db('departments').select('*');
+  },
+
   getDepartmentName(db, department_id) {
     return db('departments')
       .where({

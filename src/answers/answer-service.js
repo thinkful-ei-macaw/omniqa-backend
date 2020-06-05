@@ -1,6 +1,6 @@
 const AnswerService = {
   getAnswerList(db) {
-    return db('answers').select('*');
+    return db('answers').select('*')
   },
   insertAnswer(db, newAnswer) {
 
@@ -23,7 +23,17 @@ const AnswerService = {
 
   updateAnswer(db, id, newAnswerFields) {
     return db('answers').where({ id }).update(newAnswerFields).returning('*');
-  }, 
+  },
+  getUpvotes(db, answerID) {
+    return db
+      .from('answer_upvotes')
+      .count('id')
+      .where({
+        answer_id: answerID
+      });
+  }
 };
+
+//have a method for get answers, questions and authors
 
 module.exports = AnswerService;

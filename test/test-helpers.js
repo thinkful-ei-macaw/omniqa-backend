@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
  */
 function makeKnexInstance() {
   return knex({
-    client: 'pg', 
+    client: 'pg',
     connection: process.env.TEST_DATABASE_URL,
   });
 }
@@ -14,12 +14,12 @@ function makeKnexInstance() {
 /**
  * create a knex instance connected to postgres
  * @returns {array of user objects}
- */ 
+ */
 
 function makeUsersArray() {
   return [
     {
-      id: 1, 
+      id: 1,
       username: 'test-user-1',
       name: 'Test User 1',
       password: 'password',
@@ -41,7 +41,7 @@ function makeUsersArray() {
  */
 
 function makeAuthHeader(user, secret = process.env.JWT_SECRET) {
-  const token = jwt.sign({ id: user.id}, secret, {
+  const token = jwt.sign({ id: user.id }, secret, {
     subject: user.username,
     algorithm: 'HS256'
   });
@@ -55,16 +55,40 @@ function makeAuthHeader(user, secret = process.env.JWT_SECRET) {
  */
 
 function cleanTables(db) {
-  return db.transaction(trx => 
+  return db.transaction(trx =>
     trx.raw(
       `TRUNCATE
        "users" CASCADE`
     )
-    .then(() => 
-      Promise.all([
-        trx.raw('ALTER SEQUENCE users_id_seq minvalue 0 START WITH 1'),
-        trx.raw(`SELECT setval('users_id_seq', 0)`),
-      ])));
+      .then(() => {
+        return trx.raw(
+          `TRUNCATE
+           "departments" CASCADE`
+        )
+      })
+      .then(() => {
+        return trx.raw(
+          `TRUNCATE
+           "questions" CASCADE`
+        )
+      })
+      .then(() => {
+        return trx.raw(
+          `TRUNCATE
+           "answers" CASCADE`
+        )
+      })
+      .then(() =>
+        Promise.all([
+          trx.raw('ALTER SEQUENCE users_id_seq minvalue 0 START WITH 1'),
+          trx.raw(`SELECT setval('users_id_seq', 0)`),
+          trx.raw('ALTER SEQUENCE questions_id_seq minvalue 0 START WITH 1'),
+          trx.raw(`SELECT setval('questions_id_seq', 0)`),
+          trx.raw('ALTER SEQUENCE departments_id_seq minvalue 0 START WITH 1'),
+          trx.raw(`SELECT setval('departments_id_seq', 0)`),
+          trx.raw('ALTER SEQUENCE answers_id_seq minvalue 0 START WITH 1'),
+          trx.raw(`SELECT setval('answers_id_seq', 0)`),
+        ])));
 }
 
 /**
@@ -74,25 +98,55 @@ function cleanTables(db) {
  * @returns {Promise} - when users table seeded
  */
 
- function seedUsers(db, users) {
-   const preppedUsers = users.map(user => ({
-     ...user,
-     password: bcrypt.hashSync(user.password, 1)
-   }))
-   return db.transaction(async trx => {
-     await trx.into('users').insert(preppedUsers)
+function seedUsers(db, users) {
+  const preppedUsers = users.map(user => ({
+    ...user,
+    password: bcrypt.hashSync(user.password, 1)
+  }))
+  return db.transaction(async trx => {
+    await trx.into('users').insert(preppedUsers)
 
-     await trx.raw(
-       `SELECT setval('users_id_seq', ?)`,
-       [users[users.length - 1].id],
-     )
-   })
- }
+    await trx.raw(
+      `SELECT setval('users_id_seq', ?)`,
+      [users[users.length - 1].id],
+    )
+  })
+}
 
- module.exports = {
-   makeKnexInstance,
-   makeUsersArray,
-   makeAuthHeader,
-   cleanTables,
-   seedUsers,
- }
+function seedQuestion(db, questions) {
+
+  return db.transaction(async trx => {
+    await trx.into('questions').insert(questions)
+
+    // await trx.raw(
+    //   `SELECT setval(questions_id_seq, ?)`,
+    //   [questions[questions.length - 1].id],
+    // )
+  })
+
+}
+
+function seedDepartment(db, departments) {
+
+  return db.transaction(async trx => {
+    await trx.into('departments').insert(departments)
+
+    // await trx.raw(
+    //   `SELECT setval(departments_id_seq, ?)`,
+    //   [departments[departments.length - 1].id],
+    // )
+  })
+
+
+
+}
+
+module.exports = {
+  makeKnexInstance,
+  makeUsersArray,
+  makeAuthHeader,
+  cleanTables,
+  seedUsers,
+  seedQuestion,
+  seedDepartment
+}
