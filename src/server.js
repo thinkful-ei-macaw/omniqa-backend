@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
+require('dotenv').config();
 const app = require('./app');
-const { NODE_ENV, PORT, DATABASE_URL, TEST_DATABASE_URL } = require('./config');
+const { NODE_ENV, PORT, DATABASE_URL } = require('./config');
 const knex = require('knex');
 
 const db = knex({
@@ -9,6 +10,5 @@ const db = knex({
 });
 
 app.set('db', db);
-
 
 app.listen(PORT, () => console.log(`Server listening in ${NODE_ENV} mode at http://localhost:${PORT}`));
