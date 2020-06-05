@@ -2,7 +2,6 @@ const AnswerService = {
   getAnswerList(db) {
     return db('answers').select('*');
   },
-
   insertAnswer(db, newAnswer) {
 
     return db
@@ -10,11 +9,6 @@ const AnswerService = {
       .into('answers')
       .returning('*')
       .then(rows => rows[0]);
-  },
-  addUpvote(db, upvote) {
-    return db
-      .insert(upvote)
-      .into('answer_upvotes');
   },
   getAnswersById(db, id) {
     return db
