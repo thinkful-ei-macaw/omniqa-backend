@@ -14,7 +14,7 @@ departmentRouter
       .catch(next);
   });
 
-
+  
 departmentRouter
   .route('/:department_id')
   .get(requireAuth, (req, res, next) => {

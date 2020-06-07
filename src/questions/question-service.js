@@ -1,6 +1,9 @@
 const QuestionService = {
   getQuestionList(db) {
-    return db('questions').select('*');
+    return db('questions')
+      .select('questions.*', 'departments.name as department_name', 'users.name as user_name')
+      .join('departments', 'questions.department', 'departments.id')
+      .join('users', 'questions.author', 'users.id');
   },
 
   insertQuestion(db, newQuestion) {
