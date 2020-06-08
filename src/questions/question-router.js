@@ -15,15 +15,17 @@ const serializeQuestion = question => ({
   question_body: xss(question.question_body),
   department: question.department,
   created_date: question.created_date,
-  answered: question.answered
+  answered: question.answered,
+  liked: !!question.liked 
 });
 
 
 // posts a question bound to a specific user and a specific department, defaults to answered: false
 questionRouter
   .route('/')
-  .get((req, res, next) => {
-    QuestionService.getQuestionList(req.app.get('db'))
+  .get(requireAuth, (req, res, next) => {
+    const user_id = req.user.id;
+    QuestionService.getQuestionList(req.app.get('db'), user_id)
       .then(questions => {
         res.json(questions);
       })
