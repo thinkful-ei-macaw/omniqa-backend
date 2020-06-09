@@ -18,7 +18,7 @@ const LikesService = {
       .from('question_likes')
       .select('question_id')
       .where('user_id', user_id);
-  }
+  },
 };
 
 module.exports = LikesService;
