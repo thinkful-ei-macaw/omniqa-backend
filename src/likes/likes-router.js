@@ -4,6 +4,17 @@ const { requireAuth } = require('../middleware/jwt-auth');
 const LikesService = require('./likes-service');
 
 likesRouter
+  .route('/user')
+  .get(requireAuth, (req, res, next) => {
+    const user_id = req.user.id;
+    LikesService.getUserLikedQuestions(req.app.get('db'), user_id)
+      .then(likedQuestions => {
+        res.status(200).json(likedQuestions);
+      })
+      .catch(next);
+  });
+
+likesRouter
   .route('/:question_id')
   .get(requireAuth, (req, res, next) => {
     const questionID = req.params.question_id;
@@ -33,6 +44,6 @@ likesRouter
           next(error);
         }
       });
-  })
+  });
 
 module.exports = likesRouter;

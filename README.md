@@ -278,6 +278,28 @@ Increases the total upvote count for a given answer (req.params.answer_id). This
 
 ## Question Likes Endpoint
 
+### GET /api/likes/user
+
+Gets a list of all the question ids the currently logged in user has liked.  This requires an `Authorization` header with a Bearer Token (received from `POST /api/auth/login`).
+
+**Response: 200 OK**
+
+Example response from database.
+
+```
+[
+    {
+        "question_id": 3
+    },
+    {
+        "question_id": 4
+    },
+    {
+        "question_id": 5
+    }
+]
+```
+
 ### GET /api/likes/:question_id
 
 Gets the total number of likes for a question (req.params.question_id). This requires an `Authorization` header with a Bearer Token (received from `POST /api/auth/login`).
