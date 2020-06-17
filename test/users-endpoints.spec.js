@@ -7,14 +7,13 @@ const chai = require('chai');
 const expect = chai.expect;
 const supertest = require('supertest');
 
-
-describe('Users Endpoint', function () {
+describe('Users Endpoint', function() {
   let db;
 
   before('make knex instance', () => {
     db = knex({
       client: 'pg',
-      connection: process.env.TEST_DATABASE_URL,
+      connection: process.env.TEST_DATABASE_URL
     });
     app.set('db', db);
   });
@@ -26,7 +25,6 @@ describe('Users Endpoint', function () {
   afterEach('cleanup', () => helpers.cleanTables(db));
 
   describe('POST /api/users', () => {
-
     context('Happy path', () => {
       it('responds 201, serialized user, storing bcryped password', () => {
         const newUser = {
@@ -39,12 +37,11 @@ describe('Users Endpoint', function () {
           .send(newUser)
           .expect(201)
           .expect((res) => {
-             console.log(res.body);
+            console.log(res.body);
             expect(res.body).to.have.property('id');
             expect(res.body.username).to.eql(newUser.username);
             expect(res.body.name).to.eql(newUser.name);
             expect(res.body).to.not.have.property('password');
-           
           })
           .expect((res) => {
             db

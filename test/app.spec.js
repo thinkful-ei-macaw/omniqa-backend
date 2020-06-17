@@ -1,6 +1,6 @@
 const app = require('../src/app');
 
-describe.only('App', () => {
+describe('App', () => {
   // default endpoint
   describe('GET /', () => {
     // happy test
