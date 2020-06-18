@@ -1,6 +1,8 @@
 const AnswerService = {
   getAnswerList(db) {
-    return db('answers').select('*')
+    return db('answers')
+      .select('answers.*', 'users.name as user_name')
+      .join('users', 'answers.author', 'users.id');
   },
   insertAnswer(db, newAnswer) {
 
