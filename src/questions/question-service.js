@@ -12,7 +12,6 @@ const QuestionService = {
       .into('questions')
       .returning('*')
       .then(rows => rows[0]);
-
   },
   getQuestionsById(db, id) {
     return db
