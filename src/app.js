@@ -26,6 +26,11 @@ app.use('/api/upvotes', upvoteRouter);
 app.use('/api/likes', likesRouter);
 app.use('/api/departments', departmentRouter);
 
+// request handling
+app.get('/', (req, res) => {
+  res.status(200).send('Hello, world!');
+});
+
 // error handling
 // eslint-disable-next-line no-unused-vars
 const errorHandler = (error, req, res, next) => {
