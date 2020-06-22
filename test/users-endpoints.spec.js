@@ -7,7 +7,7 @@ const chai = require('chai');
 const expect = chai.expect;
 const supertest = require('supertest');
 
-describe('Users Endpoint', function() {
+describe('Users Endpoint', function () {
   let db;
 
   before('make knex instance', () => {
