@@ -133,14 +133,3 @@ describe('Question endpoints', () => {
         });
     });
 });
-
-// /api/questions:
-//  GET
-
-//  POST
-
-// /api/questions/:question_id
-
-//  DELETE
-
-//  PATCH
