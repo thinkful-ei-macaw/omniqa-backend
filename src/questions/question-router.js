@@ -44,11 +44,11 @@ questionRouter
       department: department_id,
       answered: false
     };
-    if (typeof department_id !== 'number') {
-      res.status(400).json({
-        error: 'Department ID must be a number'
-      });
-    }
+    // if (typeof department_id !== 'number') {
+    //   res.status(400).json({
+    //     error: 'Department ID must be a number'
+    //   });
+    // }
 
     for (const [key, value] of Object.entries(newQuestion)) {
       if (value == null) {
