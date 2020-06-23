@@ -7,7 +7,7 @@ const chai = require('chai');
 const expect = chai.expect;
 const supertest = require('supertest');
 
-describe('Answer endpoint', function() {
+describe('Answer endpoint', function () {
   let db;
 
   before('make knex instance', () => {
@@ -46,17 +46,17 @@ describe('Answer endpoint', function() {
       };
 
       before('seed users', () => {
-        return helpers.seedUsers(db, [ newUser ]);
+        return helpers.seedUsers(db, [newUser]);
       });
 
       before('seed department', () => {
-        return helpers.seedDepartment(db, [ department ]);
+        return helpers.seedDepartment(db, [department]);
       });
 
       before('seed question', () => {
-        return helpers.seedQuestion(db, [ question ]);
+        return helpers.seedQuestion(db, [question]);
       });
-      it('creates a new answer, responding 201 and the new answer', function() {
+      it('creates a new answer, responding 201 and the new answer', function () {
         const answer = {
           answer_body: 'test answer',
           question_id: 1

@@ -3,7 +3,7 @@ const knex = require('knex');
 const bcrypt = require('bcryptjs');
 const app = require('../src/app');
 const helpers = require('./test-helpers');
-const chi = require('chai');
+const chai = require('chai');
 const supertest = require('supertest');
 
 describe('Likes Endpoint', function () {
@@ -23,31 +23,61 @@ describe('Likes Endpoint', function () {
 
     afterEach('cleanup', () => helpers.cleanTables(db));
 
-    describe('GET /api/likes/:question_id', () => {
+    describe('npm ', () => {
         context('Given there are likes on a question', () => {
             const newUser = {
-                id: 1,
+                id: 2,
                 username: 'test username',
                 password: 'ASDFasdf12!@',
                 name: 'test name'
             };
-            before('seed users', () => {
-                return helpers.seedUsers(db, [newUser]);
-            });
-            it('responds with a count integer for the question', () => {
-                const likeArray = [
-                    {
-                        question_id: 1,
-                        user_id: 1
-                    }
 
+            const department = {
+                id: 1,
+                name: 'Sales'
+            };
+
+            const question = {
+                id: 1,
+                author: 2,
+                question_body: 'Test Question',
+                department: 1,
+                answered: false
+            };
+
+            const likeObject =
+            {
+                question_id: 1,
+                user_id: 2
+            };
+
+            before('seed users', () => {
+                return helpers.seedUsers(db, [newUser])
+            });
+
+            before('seed department', () => {
+                return helpers.seedDepartment(db, [department]);
+            });
+
+            before('seed question', () => {
+                return helpers.seedQuestion(db, [question])
+            });
+
+            before('seed likes', () => {
+                return helpers.seedLikes(db, [likeObject])
+            });
+
+            it('responds with a count integer for the question', () => {
+
+                const like = [
+                    {
+                        count: 1
+                    }
                 ]
                 return supertest(app)
                     .get('/api/likes/:question_id')
                     .set('Authorization', helpers.makeAuthHeader(newUser))
-                    .send(likeArray)
-
-
+                    .send(like)
 
             })
         })

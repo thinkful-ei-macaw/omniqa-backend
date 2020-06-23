@@ -126,6 +126,12 @@ function seedQuestion(db, questions) {
 
 }
 
+function seedLikes(db, likes) {
+  return db.transaction(async trx => {
+    await trx.into('question_likes').insert(likes)
+  })
+}
+
 function seedDepartment(db, departments) {
 
   return db.transaction(async trx => {
@@ -148,5 +154,6 @@ module.exports = {
   cleanTables,
   seedUsers,
   seedQuestion,
-  seedDepartment
+  seedDepartment,
+  seedLikes
 }
