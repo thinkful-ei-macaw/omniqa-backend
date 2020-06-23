@@ -33,7 +33,13 @@ likesRouter
       .then(() => {
         res.status(204).end();
       })
-      .catch(next);
+      .catch((error) => {
+        if (error.constraint == 'like_once') {
+          res.status(204);
+        } else {
+          next(error);
+        }
+      });
   });
 
 module.exports = likesRouter;
