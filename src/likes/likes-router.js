@@ -33,17 +33,7 @@ likesRouter
       .then(() => {
         res.status(204).end();
       })
-      .catch((error) => {
-        if (error.constraint == 'like_once') {
-          res.status(400).json({
-            error: {
-              message: 'You can only like once'
-            }
-          });
-        } else {
-          next(error);
-        }
-      });
+      .catch(next);
   });
 
 module.exports = likesRouter;
